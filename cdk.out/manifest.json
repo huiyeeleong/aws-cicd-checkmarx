@@ -1,0 +1,530 @@
+{
+  "version": "21.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "AbsPipelineProjectStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "AbsPipelineProjectStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "AbsPipelineProjectStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "AbsPipelineProjectStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/9200a669236610f6038694537b5a938987f859cc6951685755be83b3fb2fdb93.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "AbsPipelineProjectStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "AbsPipelineProjectStack.assets"
+      ],
+      "metadata": {
+        "/AbsPipelineProjectStack/ActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ActionRole60B0EDF7"
+          }
+        ],
+        "/AbsPipelineProjectStack/ActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ActionRoleDefaultPolicyCA33BE56"
+          }
+        ],
+        "/AbsPipelineProjectStack/backendrepo/AbsPipelineProjectStackabsdevopspipelineCAEAB0D3-development-EventRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "backendrepoAbsPipelineProjectStackabsdevopspipelineCAEAB0D3developmentEventRule2FE4DE5C"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/ArtifactsBucketEncryptionKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/ArtifactsBucketEncryptionKeyAlias/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineArtifactsBucketEncryptionKeyAliasCA9BDC58"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/ArtifactsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineArtifactsBucket39B550EE"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/ArtifactsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineArtifactsBucketPolicy8009E33E"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineRole965A7525"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineRoleDefaultPolicyCDB1199C"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipeline27D350B0"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Source/CodeCommit/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineSourceCodeCommitCodePipelineActionRole5401799F"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyA02463A2"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineEventsRole74135F43"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineEventsRoleDefaultPolicyB4919321"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Scan/scanBackendRepo/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineScanscanBackendRepoCodePipelineActionRoleD70E326B"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Scan/scanBackendRepo/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineScanscanBackendRepoCodePipelineActionRoleDefaultPolicy4A84D01A"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Build/pushBackendRepo/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineBuildpushBackendRepoCodePipelineActionRole7B1E070A"
+          }
+        ],
+        "/AbsPipelineProjectStack/abs-devops-pipeline/Build/pushBackendRepo/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevopspipelineBuildpushBackendRepoCodePipelineActionRoleDefaultPolicyCD8DFCAC"
+          }
+        ],
+        "/AbsPipelineProjectStack/checkmarxScan/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkmarxScanRole044B3E9C"
+          }
+        ],
+        "/AbsPipelineProjectStack/checkmarxScan/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkmarxScanRoleDefaultPolicy2B910D49"
+          }
+        ],
+        "/AbsPipelineProjectStack/checkmarxScan/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkmarxScan00A722FA"
+          }
+        ],
+        "/AbsPipelineProjectStack/pushProject/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pushProject58DD3AE7"
+          }
+        ],
+        "/AbsPipelineProjectStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/AbsPipelineProjectStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/AbsPipelineProjectStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/AbsPipelineProjectStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "AbsPipelineProjectStack"
+    },
+    "Abs2ndPipelineProjectStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "Abs2ndPipelineProjectStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "Abs2ndPipelineProjectStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "Abs2ndPipelineProjectStack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/00e7921285e1ef1b5b785e199db289ea05a0a92813d751dea95ec28ac512ce05.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "Abs2ndPipelineProjectStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "Abs2ndPipelineProjectStack.assets"
+      ],
+      "metadata": {
+        "/Abs2ndPipelineProjectStack/ActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ActionRole60B0EDF7"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/ActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ActionRoleDefaultPolicyCA33BE56"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/backendrepo/Abs2ndPipelineProjectStackabsdevops2ndpipeline589CBA05-main-EventRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "backendrepoAbs2ndPipelineProjectStackabsdevops2ndpipeline589CBA05mainEventRuleD23EF4AA"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/ArtifactsBucketEncryptionKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineArtifactsBucketEncryptionKey997108E6"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/ArtifactsBucketEncryptionKeyAlias/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineArtifactsBucketEncryptionKeyAlias0F01848E"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/ArtifactsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineArtifactsBucket4187C499"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/ArtifactsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineArtifactsBucketPolicy70AC9C1A"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineRole7ED291E6"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineRoleDefaultPolicy2510FDFB"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineED6ABBF3"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Source/CodeCommit/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineSourceCodeCommitCodePipelineActionRole0FC68C67"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicy20D739F9"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineEventsRoleBD5900E1"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineEventsRoleDefaultPolicy26FEB6F7"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Scan/scanMasterRepo/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineScanscanMasterRepoCodePipelineActionRole03F815F0"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Scan/scanMasterRepo/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineScanscanMasterRepoCodePipelineActionRoleDefaultPolicyC73733FD"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Build/BuildInfra/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineBuildBuildInfraCodePipelineActionRole0CF3835A"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/abs-devops-2ndpipeline/Build/BuildInfra/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "absdevops2ndpipelineBuildBuildInfraCodePipelineActionRoleDefaultPolicy570FDB25"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/checkmarxScan/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkmarxScanRole044B3E9C"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/checkmarxScan/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkmarxScanRoleDefaultPolicy2B910D49"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/checkmarxScan/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "checkmarxScan00A722FA"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/backendInfra/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "backendInfra4BEA6B73"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/Abs2ndPipelineProjectStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "Abs2ndPipelineProjectStack"
+    },
+    "AbsBackendInfra.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "AbsBackendInfra.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "AbsBackendInfra": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "AbsBackendInfra.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f126925c74d23ebba2d2af78382da12368afc321bf4f275861dfc451ec25433c.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "AbsBackendInfra.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "AbsBackendInfra.assets"
+      ],
+      "metadata": {
+        "/AbsBackendInfra/my-cdk-vpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpc037DA4AF"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/publicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcpublicSubnet1Subnet2744EDFA"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/publicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcpublicSubnet1RouteTable17452791"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/publicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcpublicSubnet1RouteTableAssociation2C76D2E0"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/publicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcpublicSubnet1DefaultRouteB7CE1177"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/publicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcpublicSubnet2Subnet04ACD525"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/publicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcpublicSubnet2RouteTableA3477C62"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/publicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcpublicSubnet2RouteTableAssociationD5E00FF0"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/publicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcpublicSubnet2DefaultRoute8DD53508"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcIGW4220D5A9"
+          }
+        ],
+        "/AbsBackendInfra/my-cdk-vpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mycdkvpcVPCGW2444B783"
+          }
+        ],
+        "/AbsBackendInfra/webserver-sg/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webserversg676A088B"
+          }
+        ],
+        "/AbsBackendInfra/webserver-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webserverroleDB0308B6"
+          }
+        ],
+        "/AbsBackendInfra/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/AbsBackendInfra/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/AbsBackendInfra/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/AbsBackendInfra/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "AbsBackendInfra"
+    }
+  }
+}

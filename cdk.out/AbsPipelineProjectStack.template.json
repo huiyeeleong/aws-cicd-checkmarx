@@ -1,0 +1,1624 @@
+{
+ "Resources": {
+  "ActionRole60B0EDF7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "CodeBuild Role",
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AdministratorAccess"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "codebuild-role-1"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/ActionRole/Resource"
+   }
+  },
+  "ActionRoleDefaultPolicyCA33BE56": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "codecommit:GitPull",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codecommit:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":abs-backend"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":logs:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "pushProject58DD3AE7"
+           },
+           ":*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":logs:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "pushProject58DD3AE7"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codebuild:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":report-group/",
+          {
+           "Ref": "pushProject58DD3AE7"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "absdevopspipelineArtifactsBucket39B550EE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "absdevopspipelineArtifactsBucket39B550EE",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ActionRoleDefaultPolicyCA33BE56",
+    "Roles": [
+     {
+      "Ref": "ActionRole60B0EDF7"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/ActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "backendrepoAbsPipelineProjectStackabsdevopspipelineCAEAB0D3developmentEventRule2FE4DE5C": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "source": [
+      "aws.codecommit"
+     ],
+     "resources": [
+      {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":codecommit:",
+         {
+          "Ref": "AWS::Region"
+         },
+         ":",
+         {
+          "Ref": "AWS::AccountId"
+         },
+         ":abs-backend"
+        ]
+       ]
+      }
+     ],
+     "detail-type": [
+      "CodeCommit Repository State Change"
+     ],
+     "detail": {
+      "event": [
+       "referenceCreated",
+       "referenceUpdated"
+      ],
+      "referenceName": [
+       "development"
+      ]
+     }
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":codepipeline:",
+         {
+          "Ref": "AWS::Region"
+         },
+         ":",
+         {
+          "Ref": "AWS::AccountId"
+         },
+         ":",
+         {
+          "Ref": "absdevopspipeline27D350B0"
+         }
+        ]
+       ]
+      },
+      "Id": "Target0",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "absdevopspipelineEventsRole74135F43",
+        "Arn"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/backendrepo/AbsPipelineProjectStackabsdevopspipelineCAEAB0D3-development-EventRule/Resource"
+   }
+  },
+  "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/ArtifactsBucketEncryptionKey/Resource"
+   }
+  },
+  "absdevopspipelineArtifactsBucketEncryptionKeyAliasCA9BDC58": {
+   "Type": "AWS::KMS::Alias",
+   "Properties": {
+    "AliasName": "alias/codepipeline-abspipelineprojectstack-abs-devops-pipeline-caeab0d3",
+    "TargetKeyId": {
+     "Fn::GetAtt": [
+      "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+      "Arn"
+     ]
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/ArtifactsBucketEncryptionKeyAlias/Resource"
+   }
+  },
+  "absdevopspipelineArtifactsBucket39B550EE": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "KMSMasterKeyID": {
+         "Fn::GetAtt": [
+          "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+          "Arn"
+         ]
+        },
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/ArtifactsBucket/Resource"
+   }
+  },
+  "absdevopspipelineArtifactsBucketPolicy8009E33E": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "absdevopspipelineArtifactsBucket39B550EE"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "absdevopspipelineArtifactsBucket39B550EE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "absdevopspipelineArtifactsBucket39B550EE",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/ArtifactsBucket/Policy/Resource"
+   }
+  },
+  "absdevopspipelineRole965A7525": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codepipeline.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Role/Resource"
+   }
+  },
+  "absdevopspipelineRoleDefaultPolicyCDB1199C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "absdevopspipelineArtifactsBucket39B550EE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "absdevopspipelineArtifactsBucket39B550EE",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "absdevopspipelineBuildpushBackendRepoCodePipelineActionRole7B1E070A",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "absdevopspipelineScanscanBackendRepoCodePipelineActionRoleD70E326B",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "absdevopspipelineSourceCodeCommitCodePipelineActionRole5401799F",
+          "Arn"
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "absdevopspipelineRoleDefaultPolicyCDB1199C",
+    "Roles": [
+     {
+      "Ref": "absdevopspipelineRole965A7525"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Role/DefaultPolicy/Resource"
+   }
+  },
+  "absdevopspipeline27D350B0": {
+   "Type": "AWS::CodePipeline::Pipeline",
+   "Properties": {
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "absdevopspipelineRole965A7525",
+      "Arn"
+     ]
+    },
+    "Stages": [
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Source",
+         "Owner": "AWS",
+         "Provider": "CodeCommit",
+         "Version": "1"
+        },
+        "Configuration": {
+         "RepositoryName": "abs-backend",
+         "BranchName": "development",
+         "PollForSourceChanges": false
+        },
+        "Name": "CodeCommit",
+        "OutputArtifacts": [
+         {
+          "Name": "Source"
+         }
+        ],
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "absdevopspipelineSourceCodeCommitCodePipelineActionRole5401799F",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Source"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "checkmarxScan00A722FA"
+         },
+         "EnvironmentVariables": "[{\"name\":\"CHECKMARX_BASE_RULE\",\"type\":\"PLAINTEXT\",\"value\":\"\"},{\"name\":\"CHECKMARX_USERNAME\",\"type\":\"PLAINTEXT\",\"value\":\"\"},{\"name\":\"CHECKMARX_PASSWORD\",\"type\":\"PLAINTEXT\",\"value\":\"\"},{\"name\":\"CX_TEAM\",\"type\":\"PLAINTEXT\",\"value\":\"\"},{\"name\":\"SCA_TENANT\",\"type\":\"PLAINTEXT\",\"value\":\"\"},{\"name\":\"SCA_USERNAME\",\"type\":\"PLAINTEXT\",\"value\":\"\"},{\"name\":\"SCA_PASSWORD\",\"type\":\"PLAINTEXT\",\"value\":\"\"},{\"name\":\"SCA_TEAM\",\"type\":\"PLAINTEXT\",\"value\":\"\"}]"
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Source"
+         }
+        ],
+        "Name": "scanBackendRepo",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "absdevopspipelineScanscanBackendRepoCodePipelineActionRoleD70E326B",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Scan"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "pushProject58DD3AE7"
+         }
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Source"
+         }
+        ],
+        "Name": "pushBackendRepo",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "absdevopspipelineBuildpushBackendRepoCodePipelineActionRole7B1E070A",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Build"
+     }
+    ],
+    "ArtifactStore": {
+     "EncryptionKey": {
+      "Id": {
+       "Fn::GetAtt": [
+        "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+        "Arn"
+       ]
+      },
+      "Type": "KMS"
+     },
+     "Location": {
+      "Ref": "absdevopspipelineArtifactsBucket39B550EE"
+     },
+     "Type": "S3"
+    },
+    "Name": "abs-devops-pipeline"
+   },
+   "DependsOn": [
+    "absdevopspipelineRoleDefaultPolicyCDB1199C",
+    "absdevopspipelineRole965A7525"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Resource"
+   }
+  },
+  "absdevopspipelineSourceCodeCommitCodePipelineActionRole5401799F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Source/CodeCommit/CodePipelineActionRole/Resource"
+   }
+  },
+  "absdevopspipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyA02463A2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "absdevopspipelineArtifactsBucket39B550EE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "absdevopspipelineArtifactsBucket39B550EE",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "codecommit:CancelUploadArchive",
+        "codecommit:GetBranch",
+        "codecommit:GetCommit",
+        "codecommit:GetUploadArchiveStatus",
+        "codecommit:UploadArchive"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codecommit:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":abs-backend"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "absdevopspipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyA02463A2",
+    "Roles": [
+     {
+      "Ref": "absdevopspipelineSourceCodeCommitCodePipelineActionRole5401799F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "absdevopspipelineEventsRole74135F43": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/EventsRole/Resource"
+   }
+  },
+  "absdevopspipelineEventsRoleDefaultPolicyB4919321": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "codepipeline:StartPipelineExecution",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codepipeline:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":",
+          {
+           "Ref": "absdevopspipeline27D350B0"
+          }
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "absdevopspipelineEventsRoleDefaultPolicyB4919321",
+    "Roles": [
+     {
+      "Ref": "absdevopspipelineEventsRole74135F43"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/EventsRole/DefaultPolicy/Resource"
+   }
+  },
+  "absdevopspipelineScanscanBackendRepoCodePipelineActionRoleD70E326B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Scan/scanBackendRepo/CodePipelineActionRole/Resource"
+   }
+  },
+  "absdevopspipelineScanscanBackendRepoCodePipelineActionRoleDefaultPolicy4A84D01A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "checkmarxScan00A722FA",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "absdevopspipelineScanscanBackendRepoCodePipelineActionRoleDefaultPolicy4A84D01A",
+    "Roles": [
+     {
+      "Ref": "absdevopspipelineScanscanBackendRepoCodePipelineActionRoleD70E326B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Scan/scanBackendRepo/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "absdevopspipelineBuildpushBackendRepoCodePipelineActionRole7B1E070A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Build/pushBackendRepo/CodePipelineActionRole/Resource"
+   }
+  },
+  "absdevopspipelineBuildpushBackendRepoCodePipelineActionRoleDefaultPolicyCD8DFCAC": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "pushProject58DD3AE7",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "absdevopspipelineBuildpushBackendRepoCodePipelineActionRoleDefaultPolicyCD8DFCAC",
+    "Roles": [
+     {
+      "Ref": "absdevopspipelineBuildpushBackendRepoCodePipelineActionRole7B1E070A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/abs-devops-pipeline/Build/pushBackendRepo/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "checkmarxScanRole044B3E9C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/checkmarxScan/Role/Resource"
+   }
+  },
+  "checkmarxScanRoleDefaultPolicy2B910D49": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "codecommit:GitPull",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codecommit:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":abs-backend"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":ecr:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":repository/checkmarx-scan"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":logs:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "checkmarxScan00A722FA"
+           },
+           ":*"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":logs:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "checkmarxScan00A722FA"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:BatchPutCodeCoverages",
+        "codebuild:BatchPutTestCases",
+        "codebuild:CreateReport",
+        "codebuild:CreateReportGroup",
+        "codebuild:UpdateReport"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codebuild:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":report-group/",
+          {
+           "Ref": "checkmarxScan00A722FA"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "absdevopspipelineArtifactsBucket39B550EE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "absdevopspipelineArtifactsBucket39B550EE",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "kms:Decrypt",
+        "kms:DescribeKey",
+        "kms:Encrypt",
+        "kms:GenerateDataKey*",
+        "kms:ReEncrypt*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "checkmarxScanRoleDefaultPolicy2B910D49",
+    "Roles": [
+     {
+      "Ref": "checkmarxScanRole044B3E9C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/checkmarxScan/Role/DefaultPolicy/Resource"
+   }
+  },
+  "checkmarxScan00A722FA": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "NO_ARTIFACTS"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": {
+      "Fn::Join": [
+       "",
+       [
+        {
+         "Ref": "AWS::AccountId"
+        },
+        ".dkr.ecr.",
+        {
+         "Ref": "AWS::Region"
+        },
+        ".",
+        {
+         "Ref": "AWS::URLSuffix"
+        },
+        "/checkmarx-scan:latest"
+       ]
+      ]
+     },
+     "ImagePullCredentialsType": "SERVICE_ROLE",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "checkmarxScanRole044B3E9C",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "lib/buildspec/scanBackend.yaml",
+     "Location": {
+      "Fn::Join": [
+       "",
+       [
+        "https://git-codecommit.",
+        {
+         "Ref": "AWS::Region"
+        },
+        ".",
+        {
+         "Ref": "AWS::URLSuffix"
+        },
+        "/v1/repos/abs-backend"
+       ]
+      ]
+     },
+     "Type": "CODECOMMIT"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "backend repo vulnerability scan.",
+    "EncryptionKey": {
+     "Fn::GetAtt": [
+      "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+      "Arn"
+     ]
+    },
+    "Name": "scanRepo",
+    "SourceVersion": "development"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/checkmarxScan/Resource"
+   }
+  },
+  "pushProject58DD3AE7": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "NO_ARTIFACTS"
+    },
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:4.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": true,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "ActionRole60B0EDF7",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "lib/buildspec/pushBackend.yaml",
+     "Location": {
+      "Fn::Join": [
+       "",
+       [
+        "https://git-codecommit.",
+        {
+         "Ref": "AWS::Region"
+        },
+        ".",
+        {
+         "Ref": "AWS::URLSuffix"
+        },
+        "/v1/repos/abs-backend"
+       ]
+      ]
+     },
+     "Type": "CODECOMMIT"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "Description": "push backend repo.",
+    "EncryptionKey": {
+     "Fn::GetAtt": [
+      "absdevopspipelineArtifactsBucketEncryptionKeyF08FBA1C",
+      "Arn"
+     ]
+    },
+    "Name": "pushBackendRepo",
+    "SourceVersion": "development"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/pushProject/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02QQU/DMAyFfwv31FBAcGY7cpnKD5iy1Ehu07iKk01TlP9OmkZip/c9y3568iu89/DypG/SmXHuLF0g/QRtZlVG50R6gTSwRXX8dVVPbMncN7tTVnhFF6SsxbZWNCvDI660oiWHkE6N6l3jrOalnH1jTdvky5KWzVTISt4gHaKZMWzDRrv813j0pYzxMODKQoH9/aAFa5NLJDuWGp4nNDWtYc5qQOHozd79gY/sRgrELitXImCS52v/Af1n+dckRJ2PLtCCMOz6B6C7E2RLAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AbsPipelineProjectStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

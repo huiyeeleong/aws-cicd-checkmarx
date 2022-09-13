@@ -1,0 +1,22 @@
+version: 0.2 
+
+phases:
+  install:
+    runtime-versions:
+        nodejs: 16
+    commands:
+      - npm install -g aws-cdk
+      - npm install -g typescript
+      - cdk --version
+  pre_build:
+    commands:
+      - aws --version
+      - echo Build started on `date`
+      - npm install
+      - cdk synth AbsBackendInfra
+      - cdk synth AbsBackendInfra > absBackendInfra.yaml
+      
+  build:
+    commands:
+      - aws s3 cp absBackendInfra.yaml s3://abs-artifact-demo/backend-infra-stack/
+     

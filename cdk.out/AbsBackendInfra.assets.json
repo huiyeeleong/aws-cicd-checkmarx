@@ -1,0 +1,19 @@
+{
+  "version": "21.0.0",
+  "files": {
+    "f126925c74d23ebba2d2af78382da12368afc321bf4f275861dfc451ec25433c": {
+      "source": {
+        "path": "AbsBackendInfra.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "f126925c74d23ebba2d2af78382da12368afc321bf4f275861dfc451ec25433c.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

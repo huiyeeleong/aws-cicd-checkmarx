@@ -1,0 +1,26 @@
+version: 0.2
+env:
+
+  git-credential-helper: yes
+    
+phases:
+  install:
+    commands:
+      - echo "STARTING PYTHON INSTALLATION"
+      - "apt-get install python"
+      - "python --version"
+      - python -m pip install -U pip
+      - pip install git-remote-codecommit
+
+  pre_build:
+    commands:
+      - aws --version
+      - git --version
+  
+  build:
+    commands:
+      - aws codecommit create-pull-request --title "Pull Request from External" --targets repositoryName=abs-backend,sourceReference=development
+      
+
+
+
